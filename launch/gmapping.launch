@@ -1,0 +1,11 @@
+<launch>
+
+	<!-- Run gmapping node -->
+	<node pkg="gmapping" type="slam_gmapping" name="gmapping_thing" output="screen" >
+  		<remap from="scan" to="base_scan" />
+  	</node>
+
+  	<!-- Run rviz with pre-defined configuration -->
+  	 <node type="rviz" name="rviz" pkg="rviz" args="-d $(find simstage_group3)/launch/mapping_config.rviz" />
+
+</launch>
