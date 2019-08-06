@@ -15,7 +15,9 @@ private:
     ros::Subscriber laser_sub;
 
     double obstacle_distance;
-    bool robot_stopped;
+    float left_distance;
+    float front_distance;
+    float right_distance;
 
     geometry_msgs::Twist calculateCommand()
     {
@@ -33,8 +35,19 @@ private:
 
     void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
     {
+        // Calculate array size of ranges
+        int ranges_len = (msg->angle_max - msg->angle_min) / msg->angle_increment;
+        int split_size = ranges_len / 3;
+
         obstacle_distance = *std::min_element(msg->ranges.begin(), msg->ranges.end());
+        right_distance = *std::min_element(msg->ranges.begin(), msg->ranges.begin()+split_size);
+        front_distance = *std::min_element(msg->ranges.begin()+split_size, msg->ranges.begin()+2*split_size);
+        left_distance = *std::min_element(msg->ranges.begin()+2*split_size, msg->ranges.begin()+ranges_len);
+        
         ROS_INFO("Min distance to obstacle: %f", obstacle_distance);
+        ROS_INFO("Min distance left: %f", left_distance);
+        ROS_INFO("Min distance front: %f", front_distance);
+        ROS_INFO("Min distance right: %f", right_distance);
     }
 
 
