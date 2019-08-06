@@ -7,6 +7,8 @@
 #include "geometry_msgs/Twist.h"
 #include "nav_msgs/Odometry.h"
 
+#define THRE_DIST 0.5
+
 class RobotController
 {
 private:
@@ -20,21 +22,30 @@ private:
     float front_distance;
     float right_distance;
 
+    int robot_state = 0;
+
+
     geometry_msgs::Twist calculateCommand()
     {
         auto msg = geometry_msgs::Twist();
-        
-        if((left_distance < 0.5 && front_distance > 0.5)) {
-            msg.linear.x = 1.0;
-        } 
-        else if(left_distance > 0.5) {
-            msg.angular.z = 1.0;
-            msg.linear.x = 0.1;
+        this->update_robot_state();
+
+        switch (robot_state) {
+            case 0: // Find wall
+                msg.linear.x = 0.3;
+                msg.angular.z = -1.0;
+                break;
+            case 1: // Turn left
+                msg.angular.z = 1.0;
+                break;
+            case 2: // Go straight
+                msg.linear.x = 1.0;
+                break;
+            case 3: // Go backwards
+                msg.linear.x = -1.0;
+                break;
         }
-        else if(front_distance < 0.5) {
-            msg.angular.z = -1.0;
-            msg.linear.x = -0.1;
-        }
+
 
         return msg;
     }
@@ -51,17 +62,38 @@ private:
         front_distance = *std::min_element(msg->ranges.begin()+split_size, msg->ranges.begin()+2*split_size);
         left_distance = *std::min_element(msg->ranges.begin()+2*split_size, msg->ranges.begin()+ranges_len);
         
-        ROS_INFO("Min distance to obstacle: %f", obstacle_distance);
-        ROS_INFO("Min distance left: %f", left_distance);
-        ROS_INFO("Min distance front: %f", front_distance);
-        ROS_INFO("Min distance right: %f", right_distance);
+        /*ROS_INFO("Min distance to obstacle) { %f", obstacle_distance);
+        ROS_INFO("Min distance left) { %f", left_distance);
+        ROS_INFO("Min distance front) { %f", front_distance);
+        ROS_INFO("Min distance right) { %f", right_distance); */
     }
+
+    void update_robot_state() {
+        if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance > THRE_DIST) {
+        robot_state = 0; }
+    else if (front_distance < THRE_DIST && left_distance > THRE_DIST && right_distance > THRE_DIST) {
+        robot_state = 1; }
+    else if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance < THRE_DIST) {
+        robot_state = 2; }
+    else if (front_distance > THRE_DIST && left_distance < THRE_DIST && right_distance > THRE_DIST) {
+        robot_state = 0; }
+    else if (front_distance < THRE_DIST && left_distance > THRE_DIST && right_distance < THRE_DIST) {
+        robot_state = 1; }
+    else if (front_distance < THRE_DIST && left_distance < THRE_DIST && right_distance > THRE_DIST) {
+        robot_state = 1; }
+    else if (front_distance < THRE_DIST && left_distance < THRE_DIST && right_distance < THRE_DIST) {
+        robot_state = 1; }
+    else if (front_distance > THRE_DIST && left_distance < THRE_DIST && right_distance < THRE_DIST) {
+        robot_state = 0; }
+    } else if (front_distance <= 0.1 || left_distance <= 0.1 || right_distance <= 0.1) {
+        // Hit wall
+        robot_state = 3;}
 
     void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) 
     {
         // Read theta value of robot
-        float theta = msg->pose.pose.orientation.w;
-        ROS_INFO("Theta: %f", theta);
+        float robot_theta = msg->pose.pose.orientation.w;
+        ROS_INFO("Theta: %f", robot_theta);
 
     }
 
