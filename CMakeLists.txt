@@ -202,3 +202,6 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+
+add_executable(reactive_navigation src/reactive_navigation.cpp)
+target_link_libraries(reactive_navigation ${catkin_LIBRARIES})
