@@ -7,10 +7,10 @@
 #include "geometry_msgs/Twist.h"
 
 
-class ReactiveController
+class RobotController
 {
 private:
-    ros::NodeHandle n;
+    ros::NodeHandle node_handle;
     ros::Publisher cmd_vel_pub;
     ros::Subscriber laser_sub;
 
@@ -39,21 +39,21 @@ private:
 
 
 public:
-    ReactiveController(){
+    RobotController(){
         // Initialize ROS
-        this->n = ros::NodeHandle();
+        this->node_handle = ros::NodeHandle();
 
         // Create a publisher object, able to push messages
-        this->cmd_vel_pub = this->n.advertise<geometry_msgs::Twist>("cmd_vel", 5);
+        this->cmd_vel_pub = this->node_handle.advertise<geometry_msgs::Twist>("cmd_vel", 5);
 
         // Create a subscriber for laser scans 
-        this->laser_sub = n.subscribe("base_scan", 10, &ReactiveController::laserCallback, this);
+        this->laser_sub = node_handle.subscribe("base_scan", 10, &RobotController::laserCallback, this);
 
     }
 
     void run(){
         // Send messages in a loop
-        ros::Rate loop_rate(10);
+        ros::Rate loop_rate(10); // Update rate of 10Hz
         while (ros::ok())
         {
             // Calculate the command to apply
@@ -74,10 +74,10 @@ public:
 
 int main(int argc, char **argv){
     // Initialize ROS
-    ros::init(argc, argv, "reactive_controller");
+    ros::init(argc, argv, "robot_controller");
 
     // Create our controller object and run it
-    auto controller = ReactiveController();
+    auto controller = RobotController();
     controller.run();
 
     // And make good on our promise
