@@ -5,7 +5,7 @@
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Twist.h"
-
+#include "nav_msgs/Odometry.h"
 
 class RobotController
 {
@@ -13,6 +13,7 @@ private:
     ros::NodeHandle node_handle;
     ros::Publisher cmd_vel_pub;
     ros::Subscriber laser_sub;
+    ros::Subscriber odom_sub;
 
     double obstacle_distance;
     float left_distance;
@@ -50,6 +51,14 @@ private:
         ROS_INFO("Min distance right: %f", right_distance);
     }
 
+    void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) 
+    {
+        // Read theta value of robot
+        float theta = msg->pose.pose.orientation.w;
+        ROS_INFO("Theta: %f", theta);
+
+    }
+
 
 public:
     RobotController(){
@@ -62,6 +71,8 @@ public:
         // Create a subscriber for laser scans 
         this->laser_sub = node_handle.subscribe("base_scan", 10, &RobotController::laserCallback, this);
 
+        // Create a subscriber for robot's odometry
+        this->odom_sub = node_handle.subscribe("odom", 10, &RobotController::odomCallback, this);
     }
 
     void run(){
