@@ -24,12 +24,18 @@ private:
     {
         auto msg = geometry_msgs::Twist();
         
-        if(obstacle_distance > 0.5){
+        if((left_distance < 0.5 && front_distance > 0.5)) {
             msg.linear.x = 1.0;
-        }else{
-            msg.angular.z = 1.0;  
+        } 
+        else if(left_distance > 0.5) {
+            msg.angular.z = 1.0;
+            msg.linear.x = 0.1;
         }
-        
+        else if(front_distance < 0.5) {
+            msg.angular.z = -1.0;
+            msg.linear.x = -0.1;
+        }
+
         return msg;
     }
 
