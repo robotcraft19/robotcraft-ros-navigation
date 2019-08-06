@@ -24,7 +24,7 @@ private:
         if(obstacle_distance > 0.5){
             msg.linear.x = 1.0;
         }else{
-            // TODO  
+            msg.angular.z = 1.0;  
         }
         
         return msg;
