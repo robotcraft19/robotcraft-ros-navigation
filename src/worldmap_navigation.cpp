@@ -33,13 +33,14 @@ private:
         switch (robot_state) {
             case 0: // Find wall
                 msg.linear.x = 0.3;
-                msg.angular.z = -1.0;
+                msg.angular.z = -1.5;
                 break;
             case 1: // Turn left
                 msg.angular.z = 1.0;
                 break;
-            case 2: // Go straight
-                msg.linear.x = 1.0;
+            case 2: // Go straight and turn small amount left
+                msg.linear.x = 0.75;
+                msg.angular.z = 0.1;
                 break;
             case 3: // Go backwards
                 msg.linear.x = -1.0;
@@ -69,25 +70,30 @@ private:
     }
 
     void update_robot_state() {
+        // 0 = Find wall = Straight Right
+        // 1 = Left
+        // 2 = Straight Left
+        // 3 = Backwards
         if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance > THRE_DIST) {
         robot_state = 0; }
-    else if (front_distance < THRE_DIST && left_distance > THRE_DIST && right_distance > THRE_DIST) {
+    else if (front_distance < THRE_DIST && left_distance > THRE_DIST+0.2 && right_distance > THRE_DIST+0.2) {
         robot_state = 1; }
     else if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance < THRE_DIST) {
         robot_state = 2; }
     else if (front_distance > THRE_DIST && left_distance < THRE_DIST && right_distance > THRE_DIST) {
         robot_state = 0; }
-    else if (front_distance < THRE_DIST && left_distance > THRE_DIST && right_distance < THRE_DIST) {
+    else if (front_distance < THRE_DIST && left_distance > THRE_DIST + 0.2 && right_distance < THRE_DIST) {
         robot_state = 1; }
     else if (front_distance < THRE_DIST && left_distance < THRE_DIST && right_distance > THRE_DIST) {
-        robot_state = 1; }
+        robot_state = 0; }
     else if (front_distance < THRE_DIST && left_distance < THRE_DIST && right_distance < THRE_DIST) {
         robot_state = 1; }
     else if (front_distance > THRE_DIST && left_distance < THRE_DIST && right_distance < THRE_DIST) {
         robot_state = 0; }
-    } else if (front_distance <= 0.1 || left_distance <= 0.1 || right_distance <= 0.1) {
+    else if (front_distance <= 0.1 || left_distance <= 0.1 || right_distance <= 0.1) {
         // Hit wall
         robot_state = 3;}
+    }
 
     void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) 
     {
