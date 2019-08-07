@@ -23,6 +23,7 @@ private:
     float right_distance;
 
     int robot_state = 0;
+    bool wall_found;
 
 
     geometry_msgs::Twist calculateCommand()
@@ -43,7 +44,10 @@ private:
                 msg.angular.z = 0.1;
                 break;
             case 3: // Go backwards
-                msg.linear.x = -1.0;
+                msg.linear.x = -0.25;
+                break;
+            case 4: // Completely lost
+                msg.linear.x = 1.5;
                 break;
         }
 
@@ -74,8 +78,28 @@ private:
         // 1 = Left
         // 2 = Straight Left
         // 3 = Backwards
-        if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance > THRE_DIST) {
-        robot_state = 0; }
+    if (front_distance <= 0.175 || left_distance <= 0.175 || right_distance <= 0.175) {
+        // Prevent hitting wall
+        robot_state = 3;
+        return;
+    }
+
+    if (wall_found == false) {
+        robot_state = 4;
+        if (right_distance < THRE_DIST)
+            wall_found = true;
+
+        if (front_distance < THRE_DIST)
+            robot_state = 1;
+        return;
+    }
+    if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance > THRE_DIST) {
+        if (front_distance > 1.5*THRE_DIST && left_distance > 1.5*THRE_DIST && right_distance > 1.5*THRE_DIST) {
+            wall_found = false;
+            robot_state = 4;
+            }
+            else {
+                robot_state = 0;} }
     else if (front_distance < THRE_DIST && left_distance > THRE_DIST+0.2 && right_distance > THRE_DIST+0.2) {
         robot_state = 1; }
     else if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance < THRE_DIST) {
@@ -90,9 +114,6 @@ private:
         robot_state = 1; }
     else if (front_distance > THRE_DIST && left_distance < THRE_DIST && right_distance < THRE_DIST) {
         robot_state = 0; }
-    else if (front_distance <= 0.1 || left_distance <= 0.1 || right_distance <= 0.1) {
-        // Hit wall
-        robot_state = 3;}
     }
 
     void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) 
