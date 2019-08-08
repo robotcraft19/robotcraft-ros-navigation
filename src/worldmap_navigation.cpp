@@ -7,7 +7,8 @@
 #include "geometry_msgs/Twist.h"
 #include "nav_msgs/Odometry.h"
 
-#define THRE_DIST 0.5
+#define THRE_DIST 0.3
+
 
 class RobotController
 {
@@ -22,35 +23,31 @@ private:
     float front_distance;
     float right_distance;
 
-    int robot_state = 0;
-    bool wall_found;
+    // PID control
+    float old_prop_error;
+    float integral_error;
+    
+    float target_value = THRE_DIST;
+    float KP = 10.0;
+    float KI = 0.0;
+    float KD = 0.0;
+    float time_interval = 0.1;
+
 
 
     geometry_msgs::Twist calculateCommand()
     {
         auto msg = geometry_msgs::Twist();
-        this->update_robot_state();
 
-        switch (robot_state) {
-            case 0: // Find wall
-                msg.linear.x = 0.3;
-                msg.angular.z = -1.5;
-                break;
-            case 1: // Turn left
-                msg.angular.z = 1.0;
-                break;
-            case 2: // Go straight and turn small amount left
-                msg.linear.x = 0.75;
-                msg.angular.z = 0.1;
-                break;
-            case 3: // Go backwards
-                msg.linear.x = -0.25;
-                break;
-            case 4: // Completely lost
-                msg.linear.x = 1.5;
-                break;
+        if (front_distance < THRE_DIST) {
+            // Prevent robot from crashing
+            msg.angular.z = 1.0;
+        } else {
+        float gain = calculateGain(right_distance);
+        ROS_INFO("Gain: %f", gain);
+        msg.linear.x = 0.5;
+        msg.angular.z = gain;
         }
-
 
         return msg;
     }
@@ -66,63 +63,29 @@ private:
         right_distance = *std::min_element(msg->ranges.begin(), msg->ranges.begin()+split_size);
         front_distance = *std::min_element(msg->ranges.begin()+split_size, msg->ranges.begin()+2*split_size);
         left_distance = *std::min_element(msg->ranges.begin()+2*split_size, msg->ranges.begin()+ranges_len);
-        
-        /*ROS_INFO("Min distance to obstacle) { %f", obstacle_distance);
-        ROS_INFO("Min distance left) { %f", left_distance);
-        ROS_INFO("Min distance front) { %f", front_distance);
-        ROS_INFO("Min distance right) { %f", right_distance); */
     }
 
-    void update_robot_state() {
-        // 0 = Find wall = Straight Right
-        // 1 = Left
-        // 2 = Straight Left
-        // 3 = Backwards
-    if (front_distance <= 0.175 || left_distance <= 0.175 || right_distance <= 0.175) {
-        // Prevent hitting wall
-        robot_state = 3;
-        return;
-    }
-
-    if (wall_found == false) {
-        robot_state = 4;
-        if (right_distance < THRE_DIST)
-            wall_found = true;
-
-        if (front_distance < THRE_DIST)
-            robot_state = 1;
-        return;
-    }
-    if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance > THRE_DIST) {
-        if (front_distance > 1.5*THRE_DIST && left_distance > 1.5*THRE_DIST && right_distance > 1.5*THRE_DIST) {
-            wall_found = false;
-            robot_state = 4;
-            }
-            else {
-                robot_state = 0;} }
-    else if (front_distance < THRE_DIST && left_distance > THRE_DIST+0.2 && right_distance > THRE_DIST+0.2) {
-        robot_state = 1; }
-    else if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance < THRE_DIST) {
-        robot_state = 2; }
-    else if (front_distance > THRE_DIST && left_distance < THRE_DIST && right_distance > THRE_DIST) {
-        robot_state = 0; }
-    else if (front_distance < THRE_DIST && left_distance > THRE_DIST + 0.2 && right_distance < THRE_DIST) {
-        robot_state = 1; }
-    else if (front_distance < THRE_DIST && left_distance < THRE_DIST && right_distance > THRE_DIST) {
-        robot_state = 0; }
-    else if (front_distance < THRE_DIST && left_distance < THRE_DIST && right_distance < THRE_DIST) {
-        robot_state = 1; }
-    else if (front_distance > THRE_DIST && left_distance < THRE_DIST && right_distance < THRE_DIST) {
-        robot_state = 0; }
-    }
 
     void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) 
     {
         // Read theta value of robot
         float robot_theta = msg->pose.pose.orientation.w;
-        ROS_INFO("Theta: %f", robot_theta);
-
     }
+
+    float calculateGain(float value) {
+        float error = this->target_value - value;
+        float new_der_err = error - this->old_prop_error;
+        float new_int_err = integral_error + error;
+
+        float gain = this->KP*error + this->KI*new_int_err*this->time_interval
+            + this->KD*new_der_err/this->time_interval;
+
+        this->old_prop_error = error;
+        this->integral_error = new_int_err;         
+
+        return gain;
+    }
+
 
 
 public:
