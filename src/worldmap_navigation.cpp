@@ -101,8 +101,8 @@ private:
         if (front_distance > THRE_DIST && right_distance > THRE_DIST 
                 && left_distance > THRE_DIST)
         {
-            lost_counter += 1;
-            if (lost_counter >= 50)
+            ++lost_counter;
+            if (lost_counter >= 75)
                 robot_lost = true;
         } 
         else if(front_distance < THRE_DIST || right_distance < THRE_DIST)
@@ -110,7 +110,6 @@ private:
             robot_lost = false;
             lost_counter = 0;
         }
-
     }
 
 
