@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include <cstdlib>
 
 #include "ros/ros.h"
@@ -7,11 +6,10 @@
 #include "geometry_msgs/Twist.h"
 #include "nav_msgs/Odometry.h"
 
-#define THRE_DIST 0.3
+#define THRE_DIST 0.5
 
+class RobotController {
 
-class RobotController
-{
 private:
     ros::NodeHandle node_handle;
     ros::Publisher cmd_vel_pub;
@@ -23,48 +21,35 @@ private:
     float front_distance;
     float right_distance;
 
-    // PID control
-    float old_prop_error;
-    float integral_error;
-    
-    float target_value = THRE_DIST;
-    float KP = 10.0;
-    float KI = 0.0;
-    float KD = 0.0;
-    float time_interval = 0.1;
+    int robot_state = 0;
 
-    bool robot_lost;
-    int lost_counter;
 
-    geometry_msgs::Twist calculateCommand()
-    {   
-        calculateRobotLost();
-
+    geometry_msgs::Twist calculateCommand() {
         auto msg = geometry_msgs::Twist();
-        
-        if (front_distance < THRE_DIST) 
-        {
-            // Prevent robot from crashing
-            msg.angular.z = 1.0;
-            msg.linear.x = -0.05;
-        } 
-        else if (robot_lost == true){
-            // Robot is lost, go straight to find wall
-            msg.linear.x = 0.5;
-        }  
-        else 
-        {
-        float gain = calculateGain(right_distance);
-        msg.linear.x = 0.5;
-        msg.angular.z = gain;
+        this->update_robot_state();
+
+        switch (robot_state) {
+            case 0: // Find wall
+                msg.linear.x = 0.3;
+                msg.angular.z = -1.0;
+                break;
+            case 1: // Turn left
+                msg.angular.z = 1.0;
+                break;
+            case 2: // Go straight
+                msg.linear.x = 1.0;
+                break;
+            case 3: // Go backwards
+                msg.linear.x = -1.0;
+                break;
         }
+
 
         return msg;
     }
 
 
-    void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
-    {
+    void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg) {
         // Calculate array size of ranges
         int ranges_len = (msg->angle_max - msg->angle_min) / msg->angle_increment;
         int split_size = ranges_len / 3;
@@ -73,49 +58,34 @@ private:
         right_distance = *std::min_element(msg->ranges.begin(), msg->ranges.begin()+split_size);
         front_distance = *std::min_element(msg->ranges.begin()+split_size, msg->ranges.begin()+2*split_size);
         left_distance = *std::min_element(msg->ranges.begin()+2*split_size, msg->ranges.begin()+ranges_len);
+        
+        /*ROS_INFO("Min distance to obstacle) { %f", obstacle_distance);
+        ROS_INFO("Min distance left) { %f", left_distance);
+        ROS_INFO("Min distance front) { %f", front_distance);
+        ROS_INFO("Min distance right) { %f", right_distance); */
     }
 
+    void update_robot_state() {
+        if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance > THRE_DIST) robot_state = 0; 
+        else if (front_distance < THRE_DIST && left_distance > THRE_DIST && right_distance > THRE_DIST) robot_state = 1;
+        else if (front_distance > THRE_DIST && left_distance > THRE_DIST && right_distance < THRE_DIST) robot_state = 2; 
+        else if (front_distance > THRE_DIST && left_distance < THRE_DIST && right_distance > THRE_DIST) robot_state = 0; 
+        else if (front_distance < THRE_DIST && left_distance > THRE_DIST && right_distance < THRE_DIST) robot_state = 1;
+        else if (front_distance < THRE_DIST && left_distance < THRE_DIST && right_distance > THRE_DIST) robot_state = 1;
+        else if (front_distance < THRE_DIST && left_distance < THRE_DIST && right_distance < THRE_DIST) robot_state = 1;
+        else if (front_distance > THRE_DIST && left_distance < THRE_DIST && right_distance < THRE_DIST) robot_state = 0;
+        else if (front_distance <= 0.1 || left_distance <= 0.1 || right_distance <= 0.1) robot_state = 3; //Hit wall
+    }
 
-    void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) 
-    {
+    void odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
         // Read theta value of robot
         float robot_theta = msg->pose.pose.orientation.w;
+        ROS_INFO("Theta: %f", robot_theta);
     }
-
-    float calculateGain(float value) {
-        float error = this->target_value - value;
-        float new_der_err = error - this->old_prop_error;
-        float new_int_err = integral_error + error;
-
-        float gain = this->KP*error + this->KI*new_int_err*this->time_interval
-            + this->KD*new_der_err/this->time_interval;
-
-        this->old_prop_error = error;
-        this->integral_error = new_int_err;         
-
-        return gain;
-    }
-
-    void calculateRobotLost() {
-        // Calculations needed to check if robot is lost
-        if (front_distance > THRE_DIST && right_distance > THRE_DIST 
-                && left_distance > THRE_DIST)
-        {
-            ++lost_counter;
-            if (lost_counter >= 75)
-                robot_lost = true;
-        } 
-        else if(front_distance < THRE_DIST || right_distance < THRE_DIST)
-        {
-            robot_lost = false;
-            lost_counter = 0;
-        }
-    }
-
 
 
 public:
-    RobotController(){
+    RobotController() {
         // Initialize ROS
         this->node_handle = ros::NodeHandle();
 
@@ -129,7 +99,7 @@ public:
         this->odom_sub = node_handle.subscribe("odom", 10, &RobotController::odomCallback, this);
     }
 
-    void run(){
+    void run() {
         // Send messages in a loop
         ros::Rate loop_rate(10); // Update rate of 10Hz
         while (ros::ok())
@@ -150,7 +120,7 @@ public:
 };
 
 
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
     // Initialize ROS
     ros::init(argc, argv, "robot_controller");
 
