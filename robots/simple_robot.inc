@@ -102,5 +102,5 @@ define simple_robot position(
 
 
 
-	laser(pose [0.23 0.0 -0.15 0.0])
+	laser(pose [0.205 0.0 -0.1 0.0])
 )
