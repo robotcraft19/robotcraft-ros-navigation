@@ -25,8 +25,6 @@ devel_isolated/
 *.dox
 *.wikidoc
 
-CMakeLists.txt
-
 # eclipse stuff
 .project
 .cprojec
