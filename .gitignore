@@ -27,10 +27,7 @@ devel_isolated/
 
 # eclipse stuff
 .project
-.cproject
-
-
-*.txt
+.cprojec
 
 # qcreator stuff
 CMakeLists.txt.user
