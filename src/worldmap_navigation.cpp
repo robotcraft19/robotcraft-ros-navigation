@@ -33,16 +33,26 @@ private:
     float KD = 0.0;
     float time_interval = 0.1;
 
-
+    bool robot_lost;
+    int lost_counter;
 
     geometry_msgs::Twist calculateCommand()
     {
         auto msg = geometry_msgs::Twist();
 
-        if (front_distance < THRE_DIST) {
+        // 
+        if (front_distance < THRE_DIST) 
+        {
             // Prevent robot from crashing
             msg.angular.z = 1.0;
-        } else {
+            msg.linear.x = -0.05;
+        } 
+        else if (robot_lost == true){
+            // Robot is lost, go straight to find wall
+            msg.linear.x = 0.5;
+        }  
+        else 
+        {
         float gain = calculateGain(right_distance);
         ROS_INFO("Gain: %f", gain);
         msg.linear.x = 0.5;
@@ -84,6 +94,23 @@ private:
         this->integral_error = new_int_err;         
 
         return gain;
+    }
+
+    void calculateRobotLost() {
+        // Calculations needed to check if robot is lost
+        if (front_distance > THRE_DIST && right_distance > THRE_DIST 
+                && left_distance > THRE_DIST)
+        {
+            lost_counter += 1;
+            if (lost_counter >= 30)
+                robot_lost = true;
+        } 
+        else if(front_distance < THRE_DIST || right_distance < THRE_DIST)
+        {
+            robot_lost = false;
+            lost_counter = 0;
+        }
+
     }
 
 
