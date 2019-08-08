@@ -37,10 +37,11 @@ private:
     int lost_counter;
 
     geometry_msgs::Twist calculateCommand()
-    {
-        auto msg = geometry_msgs::Twist();
+    {   
+        calculateRobotLost();
 
-        // 
+        auto msg = geometry_msgs::Twist();
+        
         if (front_distance < THRE_DIST) 
         {
             // Prevent robot from crashing
@@ -54,7 +55,6 @@ private:
         else 
         {
         float gain = calculateGain(right_distance);
-        ROS_INFO("Gain: %f", gain);
         msg.linear.x = 0.5;
         msg.angular.z = gain;
         }
@@ -102,7 +102,7 @@ private:
                 && left_distance > THRE_DIST)
         {
             lost_counter += 1;
-            if (lost_counter >= 30)
+            if (lost_counter >= 50)
                 robot_lost = true;
         } 
         else if(front_distance < THRE_DIST || right_distance < THRE_DIST)
