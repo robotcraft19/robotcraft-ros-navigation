@@ -29,6 +29,9 @@ devel_isolated/
 .project
 .cproject
 
+
+*.txt
+
 # qcreator stuff
 CMakeLists.txt.user
 
