@@ -7,9 +7,9 @@ sudo apt update
 
 sudo apt install ros-melodic-desktop-full
 
-sudo rosdep init
-
 rosdep update
+
+sudo rosdep init
 
 if [ $SHELL = "/usr/bin/zsh" ]
 then
