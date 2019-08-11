@@ -39,7 +39,7 @@ void RobotController::odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
 float RobotController::calculateGain(float value) {
     float error = this->target_value - value;
     float new_der_err = error - this->old_prop_error;
-    float new_int_err = integral_error + error;
+    float new_int_err = this->integral_error + error;
 
     float gain = this->KP*error + this->KI*new_int_err*this->time_interval
                  + this->KD*new_der_err/this->time_interval;
