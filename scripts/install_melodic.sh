@@ -30,6 +30,15 @@ mkdir -p ~/catkin_ws/src
 cd ~/catkin_ws/
 catkin_make
 
-source devel/setup.zsh
+if [ $SHELL = "/usr/bin/zsh" ]
+then
+	echo "source /catkin_ws/devel/setup.zsh" >> ~/.zshrc
+elif [ $SHELL = "/bin/bash" ]
+then
+	echo "source /catkin_ws/devel/setup.bash" >> ~/.bashrc
+
+else 
+	echo "ERROR : SHELL ENVIRONMENT NOT SUPPORTED (ZSH and BASH only !!)"
+fi
 
 echo $ROS_PACKAGE_PATH
