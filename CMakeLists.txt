@@ -203,5 +203,5 @@ include_directories(
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
 
-add_executable(worldmap_navigation src/worldmap_navigation.cpp)
+add_executable(worldmap_navigation src/worldmap_navigation.cpp src/RobotController.cpp)
 target_link_libraries(worldmap_navigation ${catkin_LIBRARIES})
