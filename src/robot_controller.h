@@ -31,7 +31,6 @@ private:
     ros::Publisher cmd_vel_pub;
     ros::Subscriber laser_sub;
 
-    double obstacle_distance;
     float left_distance;
     float front_distance;
     float right_distance;
