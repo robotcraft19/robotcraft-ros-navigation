@@ -1,5 +1,23 @@
+/**
+ * @file robot_controller.cpp
+ * @author Nicolas Filliol <nicolas.filliol@icloud.com>, Erwin Lejeune <erwin.lejeune15@gmail.com>, 
+ *         Alexander Koreiba, Jan Tiepelt, 
+ *         Giovanni Alexander Bergamaschi
+ * @brief Robot Controller Class
+ * @version 0.1
+ * @date 2019-08-11
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #include "robot_controller.h"
 
+/**
+ * @brief 
+ * 
+ * @return geometry_msgs::Twist 
+ */
 geometry_msgs::Twist RobotController::calculateCommand() 
 {   
     calculateRobotLost();
@@ -19,6 +37,7 @@ geometry_msgs::Twist RobotController::calculateCommand()
     } 
     else 
     {
+        // Robot keeps using normal PID controller
         float gain = calculateGain(right_distance);
         msg.linear.x = 0.5;
         msg.angular.z = gain;
@@ -26,6 +45,11 @@ geometry_msgs::Twist RobotController::calculateCommand()
     return msg;
 }
 
+/**
+ * @brief Laser Scan callback
+ * 
+ * @param msg 
+ */
 void RobotController::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg) 
 {
     // Calculate array size of ranges
@@ -38,6 +62,12 @@ void RobotController::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
     left_distance = *std::min_element(msg->ranges.begin()+2*split_size, msg->ranges.begin()+ranges_len);
 }
 
+/**
+ * @brief PID controller
+ * 
+ * @param value 
+ * @return float 
+ */
 float RobotController::calculateGain(float value) 
 {
     float error = this->target_value - value;
@@ -53,6 +83,10 @@ float RobotController::calculateGain(float value)
     return gain;
 }
 
+/**
+ * @brief Check if the robot is lost
+ * 
+ */
 void RobotController::calculateRobotLost() 
 {
     // Calculations needed to check if robot is lost
@@ -70,6 +104,10 @@ void RobotController::calculateRobotLost()
     }
 }
 
+/**
+ * @brief Construct a new Robot Controller:: Robot Controller object
+ * 
+ */
 RobotController::RobotController() 
 {
     // Initialize ROS
@@ -82,6 +120,10 @@ RobotController::RobotController()
     this->laser_sub = node_handle.subscribe("base_scan", 10, &RobotController::laserCallback, this);
 }
 
+/**
+ * @brief Run ROS
+ * 
+ */
 void RobotController::run()
 {
     // Send messages in a loop

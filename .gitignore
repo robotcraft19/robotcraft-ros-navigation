@@ -26,11 +26,7 @@ devel_isolated/
 *.wikidoc
 
 #VsCode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+.vscode
 
 # eclipse stuff
 .project

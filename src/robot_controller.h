@@ -1,3 +1,16 @@
+/**
+ * @file robot_controller.h
+ * @author Nicolas Filliol <nicolas.filliol@icloud.com>, Erwin Lejeune <erwin.lejeune15@gmail.com>, 
+ *         Alexander Koreiba, Jan Tiepelt, 
+ *         Giovanni Alexander Bergamaschi
+ * @brief Robot Controller Class
+ * @version 0.1
+ * @date 2019-08-11
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #ifndef ROBOT_CONTROLLER_H
 #define ROBOT_CONTROLLER_H
 
