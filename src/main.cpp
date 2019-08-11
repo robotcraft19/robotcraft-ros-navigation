@@ -1,6 +1,14 @@
-#include "RobotController.h"
+#include "robot_controller.h"
 
-int main(int argc, char **argv){
+/**
+ * @brief Run the robot controller node
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
+int main(int argc, char **argv)
+{
     // Initialize ROS
     ros::init(argc, argv, "robot_controller");
 
