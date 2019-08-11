@@ -1,6 +1,7 @@
-#include "RobotController.h"
+#include "robot_controller.h"
 
-int main(int argc, char **argv){
+int main(int argc, char **argv)
+{
     // Initialize ROS
     ros::init(argc, argv, "robot_controller");
 

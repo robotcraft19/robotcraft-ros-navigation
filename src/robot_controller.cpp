@@ -1,18 +1,24 @@
-#include "RobotController.h"
+#include "robot_controller.h"
 
-geometry_msgs::Twist RobotController::calculateCommand() {   
+geometry_msgs::Twist RobotController::calculateCommand() 
+{   
     calculateRobotLost();
 
     auto msg = geometry_msgs::Twist();
         
-    if (front_distance < THRE_DIST) {
+    if (front_distance < THRESHOLD_DISTANCE) 
+    {
         // Prevent robot from crashing
         msg.angular.z = 1.0;
         msg.linear.x = -0.05;
-    } else if (robot_lost == true){
+    } 
+    else if (robot_lost == true)
+    {
         // Robot is lost, go straight to find wall
         msg.linear.x = 0.5;
-    } else {
+    } 
+    else 
+    {
         float gain = calculateGain(right_distance);
         msg.linear.x = 0.5;
         msg.angular.z = gain;
@@ -20,7 +26,8 @@ geometry_msgs::Twist RobotController::calculateCommand() {
     return msg;
 }
 
-void RobotController::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg) {
+void RobotController::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg) 
+{
     // Calculate array size of ranges
     int ranges_len = (msg->angle_max - msg->angle_min) / msg->angle_increment;
     int split_size = ranges_len / 3;
@@ -31,12 +38,8 @@ void RobotController::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
     left_distance = *std::min_element(msg->ranges.begin()+2*split_size, msg->ranges.begin()+ranges_len);
 }
 
-void RobotController::odomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
-    // Read theta value of robot
-    float robot_theta = msg->pose.pose.orientation.w;
-}
-
-float RobotController::calculateGain(float value) {
+float RobotController::calculateGain(float value) 
+{
     float error = this->target_value - value;
     float new_der_err = error - this->old_prop_error;
     float new_int_err = this->integral_error + error;
@@ -50,20 +53,25 @@ float RobotController::calculateGain(float value) {
     return gain;
 }
 
-void RobotController::calculateRobotLost() {
+void RobotController::calculateRobotLost() 
+{
     // Calculations needed to check if robot is lost
-    if (front_distance > THRE_DIST && right_distance > THRE_DIST 
-        && left_distance > THRE_DIST) {
+    if (front_distance > THRESHOLD_DISTANCE && right_distance > THRESHOLD_DISTANCE 
+        && left_distance > THRESHOLD_DISTANCE) 
+    {
             ++lost_counter;
 
             if (lost_counter >= 75) robot_lost = true;
-    } else if(front_distance < THRE_DIST || right_distance < THRE_DIST) {
+    } 
+    else if(front_distance < THRESHOLD_DISTANCE || right_distance < THRESHOLD_DISTANCE) 
+    {
             robot_lost = false;
             lost_counter = 0;
     }
 }
 
-RobotController::RobotController() {
+RobotController::RobotController() 
+{
     // Initialize ROS
     this->node_handle = ros::NodeHandle();
 
@@ -72,15 +80,14 @@ RobotController::RobotController() {
 
     // Create a subscriber for laser scans 
     this->laser_sub = node_handle.subscribe("base_scan", 10, &RobotController::laserCallback, this);
-
-    // Create a subscriber for robot's odometry
-    this->odom_sub = node_handle.subscribe("odom", 10, &RobotController::odomCallback, this);
 }
 
-void RobotController::run(){
+void RobotController::run()
+{
     // Send messages in a loop
     ros::Rate loop_rate(10); // Update rate of 10Hz
-    while (ros::ok()) {
+    while (ros::ok()) 
+    {
         // Calculate the command to apply
         auto msg = calculateCommand();
 

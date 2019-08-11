@@ -1,14 +1,13 @@
-#ifndef ROBOTCONTROLLER_H
-#define ROBOTCONTROLLER_H
+#ifndef ROBOT_CONTROLLER_H
+#define ROBOT_CONTROLLER_H
 
 #include <iostream>
 #include <cstdlib>
 #include "ros/ros.h"
 #include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Twist.h"
-#include "nav_msgs/Odometry.h"
 
-#define THRE_DIST 0.3
+#define THRESHOLD_DISTANCE 0.3
 
 
 class RobotController {
@@ -18,7 +17,6 @@ private:
     ros::NodeHandle node_handle;
     ros::Publisher cmd_vel_pub;
     ros::Subscriber laser_sub;
-    ros::Subscriber odom_sub;
 
     double obstacle_distance;
     float left_distance;
@@ -29,7 +27,7 @@ private:
     float old_prop_error;
     float integral_error;
     
-    float target_value = THRE_DIST;
+    float target_value = THRESHOLD_DISTANCE;
     float KP = 10.0;
     float KI = 0.0;
     float KD = 0.0;
@@ -42,7 +40,6 @@ private:
 
 
     void laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg);
-    void odomCallback(const nav_msgs::Odometry::ConstPtr& msg);
     float calculateGain(float value);
     void calculateRobotLost();
 
@@ -53,4 +50,4 @@ public:
 
 };
 
-#endif /** ROBOTCONTROLLER_H **/
+#endif /** ROBOT_CONTROLLER_H **/
