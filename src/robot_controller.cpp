@@ -14,9 +14,9 @@
 #include "robot_controller.h"
 
 /**
- * @brief 
+ * @brief Calculates controller commands and returns message of type Twist
  * 
- * @return geometry_msgs::Twist 
+ * @return geometry_msgs::Twist including linear and angular velocity
  */
 geometry_msgs::Twist RobotController::calculateCommand() 
 {   
@@ -46,9 +46,9 @@ geometry_msgs::Twist RobotController::calculateCommand()
 }
 
 /**
- * @brief Laser Scan callback
+ * @brief Laser Scan callback of subscriber
  * 
- * @param msg 
+ * @param msg LaserScan message received by subscriber
  */
 void RobotController::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg) 
 {
@@ -56,17 +56,17 @@ void RobotController::laserCallback(const sensor_msgs::LaserScan::ConstPtr& msg)
     int ranges_len = (msg->angle_max - msg->angle_min) / msg->angle_increment;
     int split_size = ranges_len / 3;
 
-    obstacle_distance = *std::min_element(msg->ranges.begin(), msg->ranges.end());
+    // Split sensor data into three areas and extract smallest distance
     right_distance = *std::min_element(msg->ranges.begin(), msg->ranges.begin()+split_size);
     front_distance = *std::min_element(msg->ranges.begin()+split_size, msg->ranges.begin()+2*split_size);
     left_distance = *std::min_element(msg->ranges.begin()+2*split_size, msg->ranges.begin()+ranges_len);
 }
 
 /**
- * @brief PID controller
+ * @brief PID controller that calculates angular rotation
  * 
- * @param value 
- * @return float 
+ * @param value Current distance to wall (real value) of robot
+ * @return float Outputs gain (angular velocity)
  */
 float RobotController::calculateGain(float value) 
 {
@@ -84,7 +84,7 @@ float RobotController::calculateGain(float value)
 }
 
 /**
- * @brief Check if the robot is lost
+ * @brief Calculates and checks if the robot is lost
  * 
  */
 void RobotController::calculateRobotLost() 
