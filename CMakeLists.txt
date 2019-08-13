@@ -19,10 +19,8 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-<<<<<<< HEAD
 add_executable(worldmap_navigation src/worldmap_navigation.cpp src/RobotController.cpp)
 target_link_libraries(worldmap_navigation ${catkin_LIBRARIES})
-=======
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/simstage_group3.cpp
@@ -103,4 +101,3 @@ target_link_libraries(worldmap_navigation ${catkin_LIBRARIES})
 
 add_executable(main src/main.cpp src/robot_controller.cpp)
 target_link_libraries(main ${catkin_LIBRARIES})
->>>>>>> b25818afd20d0a84ff426630b1af5dac3ff683e1
