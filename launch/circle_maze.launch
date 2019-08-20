@@ -1,0 +1,9 @@
+<launch>
+
+	<!-- Run stage simulator and load world map -->
+	<node pkg="stage_ros" type="stageros" name="stage_ros" args="$(find simstage_group3)/worlds/circle_maze.world" />
+
+	<!-- Run worldmap navigation controller -->
+	<node pkg="simstage_group3" type="main" name="main_controller" output="screen"/>
+
+</launch>

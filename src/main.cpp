@@ -12,6 +12,8 @@ int main(int argc, char **argv)
     // Initialize ROS
     ros::init(argc, argv, "robot_controller");
 
+    std::size_t i = 0;
+
     // Create our controller object and run it
     auto controller = RobotController();
     controller.run();
