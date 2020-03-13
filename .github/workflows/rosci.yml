@@ -4,7 +4,7 @@ steps:
     - uses: ros-tooling/setup-ros@0.0.15
     # Run the generator and output the results to a file.
     - run: |
-        rosinstall_generator <package-name> --rosdistro <target-distro> \
+        rosinstall_generator amazebot-ros-navigation --rosdistro melodic \
         --deps-only --deps --upstream-development > /tmp/deps.repos
     # Pass the file to the action
     - uses: ros-tooling/action-ros-ci@0.0.13
