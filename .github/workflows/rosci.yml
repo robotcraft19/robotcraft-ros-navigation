@@ -1,13 +1,17 @@
 name: 'ROS 2 CI Action'
-steps:
-    - uses: actions/checkout@v2
-    - uses: ros-tooling/setup-ros@0.0.15
-    # Run the generator and output the results to a file.
-    - run: |
-        rosinstall_generator <package-name> --rosdistro <target-distro> \
-        --deps-only --deps --upstream-development > /tmp/deps.repos
-    # Pass the file to the action
-    - uses: ros-tooling/action-ros-ci@0.0.13
-      with:
-        package-name: amazebot-ros-navigation
-        vcs-repo-file-url: https://raw.githubusercontent/robotcraft19/amazebot-ros-navigation
+on: [push]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: ros-tooling/setup-ros@0.0.15
+            # Run the generator and output the results to a file.
+            - run: |
+                rosinstall_generator <package-name> --rosdistro <target-distro> \
+                --deps-only --deps --upstream-development > /tmp/deps.repos
+            # Pass the file to the action
+            - uses: ros-tooling/action-ros-ci@0.0.13
+              with:
+                package-name: amazebot-ros-navigation
+                vcs-repo-file-url: https://raw.githubusercontent/robotcraft19/amazebot-ros-navigation
