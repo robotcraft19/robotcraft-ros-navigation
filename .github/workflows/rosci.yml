@@ -19,7 +19,7 @@ jobs:
       with:
         required-ros-distributions: melodic
     - name: Run Tests
-      uses: ros-tooling/action-ros-ci@0.0.13
+      uses: ros-tooling/action-ros-ci@0.0.15
       with:
         package-name: amazebot-ros-navigation
     - name: Upload Logs
