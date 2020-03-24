@@ -1,4 +1,5 @@
-name: ROS Continuous Integration
+name: 'ROS Continuous Integration'
+author: 'ROS Tooling Working Group'
 
 on:
   pull_request:
@@ -8,12 +9,14 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
+    strategy:
+        fail-fast: false
     steps:
     - name: Setup ROS Melodic
       uses: ros-tooling/setup-ros@0.0.15
       with:
-        required-ros-distributions: kinetic
+        required-ros-distributions: melodic
     - name: Run Tests
       uses: ros-tooling/action-ros-ci@0.0.13
       with:
