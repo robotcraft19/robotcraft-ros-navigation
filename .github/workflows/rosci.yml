@@ -1,5 +1,4 @@
 name: 'ROS Continuous Integration'
-author: 'ROS Tooling Working Group'
 
 on:
   pull_request:
