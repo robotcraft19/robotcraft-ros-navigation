@@ -13,9 +13,10 @@ jobs:
         fail-fast: false
     steps:
     - name: Setup ROS Melodic
-      uses: ros-tooling/setup-ros@0.0.15
-      with:
-        required-ros-distributions: melodic
+      - uses: ros-tooling/setup-ros@0.0.15
+        with:
+          required-ros-distributions: melodic
+      - run: "source /opt/ros/melodic/setup.bash"
     - name: Run Tests
       uses: ros-tooling/action-ros-ci@0.0.13
       with:
