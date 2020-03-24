@@ -14,7 +14,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
       fail-fast: false
     steps:
-    - name: Setup ROS 2
+    - name: Setup ROS Melodic
       uses: ros-tooling/setup-ros@0.0.15
       with:
         required-ros-distributions: melodic
