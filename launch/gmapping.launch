@@ -6,6 +6,6 @@
   	</node>
 
   	<!-- Run rviz with pre-defined configuration -->
-  	 <node type="rviz" name="rviz" pkg="rviz" args="-d $(find simstage_group3)/launch/mapping_robotpos_config.rviz" />
+  	 <node type="rviz" name="rviz" pkg="rviz" args="-d $(find amazebot-ros-navigation)/launch/mapping_robotpos_config.rviz" />
 
 </launch>

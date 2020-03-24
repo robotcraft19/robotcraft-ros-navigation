@@ -1,7 +1,7 @@
 <launch>
 
 	<!-- Run stage simulator and load world map -->
-	<node pkg="stage_ros" type="stageros" name="stage_ros" args="$(find simstage_group3)/worlds/full_world_map.world" />
+	<node pkg="stage_ros" type="stageros" name="stage_ros" args="$(find amazebot-ros-navigation)/worlds/full_world_map.world" />
 
 	<!-- Run teleop node -->
 	<node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop" output="screen"/>
