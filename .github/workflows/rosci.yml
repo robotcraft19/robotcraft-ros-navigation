@@ -9,8 +9,6 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
     - name: Setup ROS Melodic
       uses: ros-tooling/setup-ros@0.0.15
