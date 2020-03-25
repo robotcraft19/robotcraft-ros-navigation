@@ -9,7 +9,8 @@
 <br />
 <p align="center">
   <a href="https://github.com/robotcraft19/amazebot-ros-navigation>
-    <img src="https://raw.githubusercontent.com/robotcraft19/amazebot-ros-navigation/master/res/images/logo_amazebot.png">
+    <img src="res/images/logo_amazebot.png" alt="Logo" width="100" height="100">
+    <img src="https://raw.githubusercontent.com/robotcraft19/amazebot-pathfinding-stage/master/res/images/logo_amazebot.png">
   </a>
 
   <h3 align="center">Amazebot Wallfollowing Package</h3>
@@ -47,6 +48,7 @@
 
 <p align="center">
   <a href="https://github.com/robotcraft19/amazebot-ros-navigation>
+    <img src="res/images/maze.png" alt="Banner" width="400" height="260">
     <img src="https://raw.githubusercontent.com/robotcraft19/amazebot-ros-navigation/master/res/images/maze.png">
   </a>
 </p>
