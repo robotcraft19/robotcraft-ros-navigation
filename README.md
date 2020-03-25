@@ -27,6 +27,9 @@
   </p>
 </p>
 
+<br />
+<p align="center">![ros melodic ci](https://github.com/robotcraft19/amazebot-ros-navigation/workflows/ros%20melodic%20ci/badge.svg?event=status)</p
+
 ## Table of Contents
 
 * [About the Project](#about-the-project)
