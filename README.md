@@ -1,4 +1,4 @@
-![Github Actions](https://github.com/robotcraft19/amazebot-ros-navigation/workflows/ros%20melodic%20ci/badge.svg?event=status)
+![ros melodic ci](https://github.com/robotcraft19/amazebot-ros-navigation/workflows/ros%20melodic%20ci/badge.svg)
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
