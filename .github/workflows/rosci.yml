@@ -1,4 +1,4 @@
-name: 'ROS Continuous Integration'
+name: 'ros melodic ci'
 
 on:
   pull_request:
