@@ -1,4 +1,4 @@
-name: 'ros melodic ci'
+name: 'ros-ci'
 
 on:
   pull_request:
