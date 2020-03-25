@@ -1,0 +1,28 @@
+name: 'ROS Continuous Integration'
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-18.04
+    strategy:
+        fail-fast: false
+    steps:
+    - name: Setup ROS Melodic
+      uses: ros-tooling/setup-ros@0.0.15
+      with:
+        required-ros-distributions: melodic
+    - name: Run Tests
+      uses: ros-tooling/action-ros-ci@0.0.13
+      with:
+        package-name: amazebot-ros-navigation
+    - name: Upload Logs
+      uses: actions/upload-artifact@v1
+      with:
+        name: colcon-logs
+        path: ros_ws/log
+      if: always()
