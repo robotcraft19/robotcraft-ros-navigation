@@ -8,14 +8,14 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-18.04
     strategy:
         fail-fast: false
     steps:
     - name: Setup ROS Melodic
       uses: ros-tooling/setup-ros@0.0.15
       with:
-        required-ros-distributions: kinetic
+        required-ros-distributions: melodic
     - name: Run Tests
       uses: ros-tooling/action-ros-ci@0.0.13
       with:
