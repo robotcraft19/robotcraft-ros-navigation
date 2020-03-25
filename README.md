@@ -11,7 +11,7 @@
     <img src="https://raw.githubusercontent.com/robotcraft19/amazebot-ros-navigation/master/res/images/logo_amazebot.png" alt="Logo" width="100" height="100">
   </a>
 
-  <h3 align="center">Amazebot Navigation Package</h3>
+  <h3 align="center">Amazebot Wallfollowing Package</h3>
 
   <p align="center">
     Differential robot simulated on Stage. You can add your own map, own robot. ROS nodes developed only include the wallfollowing robot using IR sensors. Wall distance is controlled by a Proportional controller. Integral and Derivative gain may be needed but are not used here.
