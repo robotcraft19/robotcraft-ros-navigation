@@ -131,11 +131,11 @@ Erwin Lejeune - [@spida_rwin](https://twitter.com/spida_rwin) - erwin.lejeune15@
 
 Everyone part of the original team or that assisted throughout the development.
 
-https://github.com/nicofilliol
-https://github.com/jantiepelt
-https://github.com/alexbergamaschi
-https://github.com/paradauz
-https://github.com/Guilyx
+- [Nicolas Filliol](https://github.com/nicofilliol)
+- [Jan Tiepelt](https://github.com/jantiepelt)
+- [Giovanni Alexander Bergamaschi](https://github.com/alexbergamaschi)
+- [Oleksandr Koreiba](https://github.com/paradauz)
+- [Erwin Lejeune](https://github.com/Guilyx)
 
 [contributors-shield]: https://img.shields.io/github/contributors/robotcraft19/amazebot-ros-navigation.svg?style=flat-square
 [contributors-url]: https://github.com/robotcraft19/amazebot-ros-navigation/graphs/contributors
