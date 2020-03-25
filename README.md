@@ -30,16 +30,15 @@
 ## Table of Contents
 
 * [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
+* [Setup](#setup)
+* [Run](#run)
+  * [Reactive](#reactive-navigation)
+  * [Teleoperation](#teleoperation)
 * [Roadmap](#roadmap)
-* [Contributing](#contributing)
+* [Contribute](#contribute)
 * [License](#license)
 * [Contact](#contact)
-* [Acknowledgements](#acknowledgements)
+* [Contributors](#contributors)
 
 ## About the Project
 
@@ -79,7 +78,7 @@ Running the nodes is quite easy as launch files were made.
 - Worldmap Maze : `roslaunch amazebot-ros-navigation reactive.launch`
 - Square Maze : `roslaunch amazebot-ros-navigation square_maze.launch`
 
-### Teleop :
+### Teleoperation :
 
 - Only one map available : `roslaunch amazebot-ros-navigation teleop.launch`
 
