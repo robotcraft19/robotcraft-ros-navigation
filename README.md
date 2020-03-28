@@ -7,8 +7,7 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/robotcraft19/amazebot-ros-navigation>
-    <img src="res/images/logo_amazebot.png" alt="Logo" width="100" height="100">
+    <img src="res/images/logo_amazebot.png" alt="Logo" width="500" height="370">
   </a>
 
   <h3 align="center">Amazebot Navigation Package</h3>
@@ -30,11 +29,8 @@
 ## Table of Contents
 
 * [About the Project](#about-the-project)
-  * [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
+* [Setup](#setup)
+* [Run](#run)
 * [Roadmap](#roadmap)
 * [Contributing](#contributing)
 * [License](#license)
@@ -44,8 +40,7 @@
 ## About the Project
 
 <p align="center">
-  <a href="https://github.com/robotcraft19/amazebot-ros-navigation>
-    <img src="res/images/maze.png" alt="Logo" width="300" height="160">
+    <img src="res/images/maze.png" alt="Demo" width="300" height="160">
   </a>
 </p>
 
