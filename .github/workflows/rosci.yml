@@ -16,6 +16,8 @@ jobs:
       uses: ros-tooling/setup-ros@0.0.16
       with:
         required-ros-distributions: melodic
+    - name: Source ROS Environment
+      run: source /opt/ros/melodic/setup.bash
     - name: Run Tests
       uses: ros-tooling/action-ros-ci@0.0.13
       with:
