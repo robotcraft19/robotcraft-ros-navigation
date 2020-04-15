@@ -1,4 +1,4 @@
-![ros melodic ci](https://github.com/robotcraft19/amazebot-ros-navigation/workflows/ros%20melodic%20ci/badge.svg)
+![ros melodic ci](https://github.com/robotcraft19/robotcraft-ros-navigation/workflows/ros%20melodic%20ci/badge.svg)
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -8,9 +8,9 @@
 
 <br />
 <p align="center">
-  <a href="https://github.com/robotcraft19/amazebot-ros-navigation>
+  <a href="https://github.com/robotcraft19/robotcraft-ros-navigation>
     <img src="res/images/logo_amazebot.png" alt="Logo" width="100" height="100">
-    <img src="https://raw.githubusercontent.com/robotcraft19/amazebot-pathfinding-stage/master/res/images/logo_amazebot.png">
+    <img src="https://raw.githubusercontent.com/robotcraft19/robotcraft-pathfinding-stage/master/res/images/logo_amazebot.png">
   </a>
 
   <h3 align="center">Amazebot Wallfollowing Package</h3>
@@ -18,14 +18,14 @@
   <p align="center">
     Differential robot simulated on Stage. You can add your own map, own robot. ROS nodes developed only include the wallfollowing robot using IR sensors. Wall distance is controlled by a Proportional controller. Integral and Derivative gain may be needed but are not used here.
     <br />
-    <a href="https://github.com/robotcraft19/amazebot-ros-navigation"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/robotcraft19/robotcraft-ros-navigation"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/robotcraft19/amazebot-ros-navigation">View Demo</a>
+    <a href="https://github.com/robotcraft19/robotcraft-ros-navigation">View Demo</a>
     ·
-    <a href="https://github.com/robotcraft19/amazebot-ros-navigation/issues">Report Bug</a>
+    <a href="https://github.com/robotcraft19/robotcraft-ros-navigation/issues">Report Bug</a>
     ·
-    <a href="https://github.com/robotcraft19/amazebot-ros-navigation/issues">Request Feature</a>
+    <a href="https://github.com/robotcraft19/robotcraft-ros-navigation/issues">Request Feature</a>
   </p>
 </p>
 
@@ -47,9 +47,9 @@
 ## About the Project
 
 <p align="center">
-  <a href="https://github.com/robotcraft19/amazebot-ros-navigation>
+  <a href="https://github.com/robotcraft19/robotcraft-ros-navigation>
     <img src="res/images/maze.png" alt="Banner" width="400" height="260">
-    <img src="https://raw.githubusercontent.com/robotcraft19/amazebot-ros-navigation/master/res/images/maze.png">
+    <img src="https://raw.githubusercontent.com/robotcraft19/robotcraft-ros-navigation/master/res/images/maze.png">
   </a>
 </p>
 
@@ -65,7 +65,7 @@ Now that you have ROS, to setup the project on your local machine:
 
 1. Click on `Fork`.
 2. Go to your fork and `clone` the project to your local machine, in the "catkin_ws" folder.
-3. `git clone https://github.com/robotcraft19/amazebot-ros-navigation.git`
+3. `git clone https://github.com/robotcraft19/robotcraft-ros-navigation.git`
 4. Make sure you have rosdep install : `sudo apt-get install python-rosdep && sudo rosdep init`
 5. `cd ~/catkin_ws`
 6. `rosdep install --from-paths src --ignore-src -r -y`
@@ -79,17 +79,17 @@ Running the nodes is quite easy as launch files were made.
 
 ### Reactive Navigation :
 
-- Circle Maze : `roslaunch amazebot-ros-navigation circle_maze.launch`
-- Worldmap Maze : `roslaunch amazebot-ros-navigation reactive.launch`
-- Square Maze : `roslaunch amazebot-ros-navigation square_maze.launch`
+- Circle Maze : `roslaunch robotcraft-ros-navigation circle_maze.launch`
+- Worldmap Maze : `roslaunch robotcraft-ros-navigation reactive.launch`
+- Square Maze : `roslaunch robotcraft-ros-navigation square_maze.launch`
 
 ### Teleoperation :
 
-- Only one map available : `roslaunch amazebot-ros-navigation teleop.launch`
+- Only one map available : `roslaunch robotcraft-ros-navigation teleop.launch`
 
 ## Roadmap
 
-See the [open issues](https://github.com/robotcraft19/amazebot-ros-navigation/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/robotcraft19/robotcraft-ros-navigation/issues) for a list of proposed features (and known issues).
 
 ## Contribute
 
@@ -97,7 +97,7 @@ Contributions are what make the open source community such an amazing place to l
 
 ### Contribute on proposed features
 
-1. Choose any open issue from [here](https://github.com/robotcraft19/amazebot-ros-navigation/issues). 
+1. Choose any open issue from [here](https://github.com/robotcraft19/robotcraft-ros-navigation/issues). 
 2. Comment on the issue: `Can I work on this?` and get assigned.
 3. Make changes to your fork and send a PR.
 
@@ -142,15 +142,15 @@ Everyone part of the original team or that assisted throughout the development.
 - [Oleksandr Koreiba](https://github.com/paradauz)
 - [Erwin Lejeune](https://github.com/Guilyx)
 
-[contributors-shield]: https://img.shields.io/github/contributors/robotcraft19/amazebot-ros-navigation.svg?style=flat-square
-[contributors-url]: https://github.com/robotcraft19/amazebot-ros-navigation/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/robotcraft19/amazebot-ros-navigation.svg?style=flat-square
-[forks-url]: https://github.com/robotcraft19/amazebot-ros-navigation/network/members
-[stars-shield]: https://img.shields.io/github/stars/robotcraft19/amazebot-ros-navigation.svg?style=flat-square
-[stars-url]: https://github.com/robotcraft19/amazebot-ros-navigation/stargazers
-[issues-shield]: https://img.shields.io/github/issues/robotcraft19/amazebot-ros-navigation.svg?style=flat-square
-[issues-url]: https://github.com/robotcraft19/amazebot-ros-navigation/issues
-[license-shield]: https://img.shields.io/github/license/robotcraft19/amazebot-ros-navigation.svg?style=flat-square
-[license-url]: https://github.com/robotcraft19/amazebot-ros-navigation/blob/master/LICENSE.md
+[contributors-shield]: https://img.shields.io/github/contributors/robotcraft19/robotcraft-ros-navigation.svg?style=flat-square
+[contributors-url]: https://github.com/robotcraft19/robotcraft-ros-navigation/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/robotcraft19/robotcraft-ros-navigation.svg?style=flat-square
+[forks-url]: https://github.com/robotcraft19/robotcraft-ros-navigation/network/members
+[stars-shield]: https://img.shields.io/github/stars/robotcraft19/robotcraft-ros-navigation.svg?style=flat-square
+[stars-url]: https://github.com/robotcraft19/robotcraft-ros-navigation/stargazers
+[issues-shield]: https://img.shields.io/github/issues/robotcraft19/robotcraft-ros-navigation.svg?style=flat-square
+[issues-url]: https://github.com/robotcraft19/robotcraft-ros-navigation/issues
+[license-shield]: https://img.shields.io/github/license/robotcraft19/robotcraft-ros-navigation.svg?style=flat-square
+[license-url]: https://github.com/robotcraft19/robotcraft-ros-navigation/blob/master/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/erwinlejeune-lkn

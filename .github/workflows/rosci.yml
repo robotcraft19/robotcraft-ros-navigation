@@ -21,7 +21,7 @@ jobs:
     - name: Run Tests
       uses: ros-tooling/action-ros-ci@0.0.13
       with:
-        package-name: amazebot-ros-navigation
+        package-name: robotcraft-ros-navigation
     - name: Upload Logs
       uses: actions/upload-artifact@v1
       with:

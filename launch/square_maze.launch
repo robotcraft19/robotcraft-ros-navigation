@@ -1,9 +1,9 @@
 <launch>
 
 	<!-- Run stage simulator and load world map -->
-	<node pkg="stage_ros" type="stageros" name="stage_ros" args="$(find amazebot-ros-navigation)/worlds/square_maze.world" />
+	<node pkg="stage_ros" type="stageros" name="stage_ros" args="$(find robotcraft-ros-navigation)/worlds/square_maze.world" />
 
 	<!-- Run worldmap navigation controller -->
-	<node pkg="amazebot-ros-navigation" type="main" name="main_controller" output="screen"/>
+	<node pkg="robotcraft-ros-navigation" type="main" name="main_controller" output="screen"/>
 
 </launch>
